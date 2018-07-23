@@ -56,12 +56,13 @@ function generateImages() {
   imageEl1.setAttribute('src', imageObjects[newNumbers[0]].path);
   imageEl1.addEventListener('click', function() {
     imageObjects[newNumbers[0]].totalClicks++;
-    generateNumArray();
-    generateImages();
     clickCounter++;
 
     if (clickCounter === 25) {
       displayList();
+    } else {
+      generateNumArray();
+      generateImages();
     }
   });
 
@@ -70,11 +71,13 @@ function generateImages() {
   imageEl2.setAttribute('src', imageObjects[newNumbers[1]].path);
   imageEl2.addEventListener('click', function() {
     imageObjects[newNumbers[1]].totalClicks++;
-    generateNumArray();
-    generateImages();
     clickCounter++;
+
     if (clickCounter === 25) {
       displayList();
+    } else {
+      generateNumArray();
+      generateImages();
     }
   });
 
@@ -83,11 +86,13 @@ function generateImages() {
   imageEl3.setAttribute('src', imageObjects[newNumbers[2]].path);
   imageEl3.addEventListener('click', function() {
     imageObjects[newNumbers[2]].totalClicks++;
-    generateNumArray();
-    generateImages();
     clickCounter++;
+
     if (clickCounter === 25) {
       displayList();
+    } else {
+      generateNumArray();
+      generateImages();
     }
   });
 
