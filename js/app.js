@@ -51,7 +51,7 @@ function handleClick1() {
   imageObjects[newNumbers[0]].totalClicks++;
   clickCounter++;
 
-  if (clickCounter === 5) {
+  if (clickCounter === 25) {
     displayChart();
   } else {
     generateNumArray();
@@ -63,7 +63,7 @@ function handleClick2() {
   imageObjects[newNumbers[1]].totalClicks++;
   clickCounter++;
 
-  if (clickCounter === 5) {
+  if (clickCounter === 25) {
     displayChart();
   } else {
     generateNumArray();
@@ -75,7 +75,7 @@ function handleClick3() {
   imageObjects[newNumbers[2]].totalClicks++;
   clickCounter++;
 
-  if (clickCounter === 5) {
+  if (clickCounter === 25) {
     displayChart();
   } else {
     generateNumArray();
@@ -162,8 +162,8 @@ function displayChart() {
     imageNames.push(imageObjects[i].name);
     imageClicks.push(imageObjects[i].totalClicks);
     imageDisplays.push(imageObjects[i].timesDisplayed);
-    color.push(`rgb(60, 60, ${250 - i*10})`);
-    hovercolor.push(`rgb(10, 10, ${200 - i*10})`);
+    color.push(`rgb(${200-i*9}, ${220-i*5}, 255)`);
+    hovercolor.push(`rgb(${180-i*9}, ${210-i*5}, 255)`);
   }
 
   var headingEl = document.createElement('h2');
@@ -183,7 +183,7 @@ function displayChart() {
     data: {
       labels: imageNames,
       datasets: [{
-        label: "BusMall Product Selections",
+        label: 'BusMall Product Selections',
         backgroundColor: color,
         hoverBackgroundColor: hovercolor,
         data: imageClicks,
