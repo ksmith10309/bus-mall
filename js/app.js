@@ -47,6 +47,42 @@ function generateNumArray() {
 
 var clickCounter = 0;
 
+function handleClick1() {
+  imageObjects[newNumbers[0]].totalClicks++;
+  clickCounter++;
+
+  if (clickCounter === 5) {
+    displayChart();
+  } else {
+    generateNumArray();
+    generateImages();
+  }
+}
+
+function handleClick2() {
+  imageObjects[newNumbers[1]].totalClicks++;
+  clickCounter++;
+
+  if (clickCounter === 5) {
+    displayChart();
+  } else {
+    generateNumArray();
+    generateImages();
+  }
+}
+
+function handleClick3() {
+  imageObjects[newNumbers[2]].totalClicks++;
+  clickCounter++;
+
+  if (clickCounter === 5) {
+    displayChart();
+  } else {
+    generateNumArray();
+    generateImages();
+  }
+}
+
 function generateImages() {
   var mainEl = document.getElementById('main-container');
   mainEl.textContent = '';
@@ -54,47 +90,20 @@ function generateImages() {
   imageObjects[newNumbers[0]].timesDisplayed++;
   var imageEl1 = document.createElement('img');
   imageEl1.setAttribute('src', imageObjects[newNumbers[0]].path);
-  imageEl1.addEventListener('click', function() {
-    imageObjects[newNumbers[0]].totalClicks++;
-    clickCounter++;
-
-    if (clickCounter === 5) {
-      displayChart();
-    } else {
-      generateNumArray();
-      generateImages();
-    }
-  });
+  imageEl1.setAttribute('id', 'image-one');
+  imageEl1.addEventListener('click', handleClick1);
 
   imageObjects[newNumbers[1]].timesDisplayed++;
   var imageEl2 = document.createElement('img');
   imageEl2.setAttribute('src', imageObjects[newNumbers[1]].path);
-  imageEl2.addEventListener('click', function() {
-    imageObjects[newNumbers[1]].totalClicks++;
-    clickCounter++;
-
-    if (clickCounter === 5) {
-      displayChart();
-    } else {
-      generateNumArray();
-      generateImages();
-    }
-  });
+  imageEl2.setAttribute('id', 'image-two');
+  imageEl2.addEventListener('click', handleClick2);
 
   imageObjects[newNumbers[2]].timesDisplayed++;
   var imageEl3 = document.createElement('img');
   imageEl3.setAttribute('src', imageObjects[newNumbers[2]].path);
-  imageEl3.addEventListener('click', function() {
-    imageObjects[newNumbers[2]].totalClicks++;
-    clickCounter++;
-
-    if (clickCounter === 5) {
-      displayChart();
-    } else {
-      generateNumArray();
-      generateImages();
-    }
-  });
+  imageEl3.setAttribute('id', 'image-three');
+  imageEl3.addEventListener('click', handleClick3);
 
   var divEl1 = document.createElement('div');
   divEl1.setAttribute('class', 'img-container');
@@ -136,6 +145,13 @@ function displayList() {
 */
 
 function displayChart() {
+  var imageEl1 = document.getElementById('image-one');
+  imageEl1.removeEventListener('click', handleClick1);
+  var imageEl2 = document.getElementById('image-two');
+  imageEl2.removeEventListener('click', handleClick2);
+  var imageEl3 = document.getElementById('image-three');
+  imageEl3.removeEventListener('click', handleClick3);
+
   var imageNames = [];
   var imageClicks = [];
   var imageDisplays = [];
@@ -150,15 +166,16 @@ function displayChart() {
     hovercolor.push(`rgb(10, 10, ${200 - i*10})`);
   }
 
-  var headingEl = document.getElementById('heading');
+  var headingEl = document.createElement('h2');
   headingEl.textContent = 'Here is a bar graph of your selections:';
-
   var mainEl = document.getElementById('main-container');
-  mainEl.textContent = '';
-
+  mainEl.appendChild(headingEl);
   var canvasEl = document.createElement('canvas');
   canvasEl.setAttribute('id', 'bar-graph');
-  mainEl.appendChild(canvasEl);
+  var divEl = document.createElement('div');
+  divEl.setAttribute('class', 'chart-container');
+  divEl.appendChild(canvasEl);
+  mainEl.appendChild(divEl);
 
   var ctx = document.getElementById('bar-graph').getContext('2d');
   var chart = new Chart(ctx, {
@@ -174,6 +191,4 @@ function displayChart() {
     },
     options: {}
   });
-
-  mainEl.appendChild(canvasEl);
 }
