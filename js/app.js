@@ -1,14 +1,28 @@
 'use strict';
 
-var images = ['img/bag.jpg', 'img/banana.jpg', 'img/bathroom.jpg', 'img/boots.jpg', 'img/breakfast.jpg', 'img/bubblegum.jpg', 'img/chair.jpg', 'img/cthulhu.jpg', 'img/dog-duck.jpg', 'img/dragon.jpg', 'img/pen.jpg', 'img/pet-sweep.jpg', 'img/scissors.jpg', 'img/shark.jpg', 'img/sweep.png', 'img/tauntaun.jpg', 'img/unicorn.jpg', 'img/usb.gif', 'img/water-can.jpg', 'img/wine-glass.jpg'];
-
-var imageObjects = [];
-
 function ImageObject(img) {
   this.name = img.split('/')[1].split('.')[0];
   this.path = img;
   this.totalClicks = 0;
   this.timesDisplayed = 0;
+}
+
+var images = ['img/bag.jpg', 'img/banana.jpg', 'img/bathroom.jpg', 'img/boots.jpg', 'img/breakfast.jpg', 'img/bubblegum.jpg', 'img/chair.jpg', 'img/cthulhu.jpg', 'img/dog-duck.jpg', 'img/dragon.jpg', 'img/pen.jpg', 'img/pet-sweep.jpg', 'img/scissors.jpg', 'img/shark.jpg', 'img/sweep.png', 'img/tauntaun.jpg', 'img/unicorn.jpg', 'img/usb.gif', 'img/water-can.jpg', 'img/wine-glass.jpg'];
+
+var imageObjects = [];
+
+for (var i=0; i<images.length; i++) {
+  imageObjects.push(new ImageObject(images[i]));
+}
+
+var imageNames = [];
+var color = [];
+var hovercolor = [];
+
+for (var i = 0; i < imageObjects.length; i++) {
+  imageNames.push(imageObjects[i].name);
+  color.push(`rgb(${200-i*9}, ${220-i*5}, 255)`);
+  hovercolor.push(`rgb(${180-i*9}, ${210-i*5}, 255)`);
 }
 
 for (var i=0; i<images.length; i++) {
@@ -51,8 +65,9 @@ function handleClick1() {
   imageObjects[newNumbers[0]].totalClicks++;
   clickCounter++;
 
-  if (clickCounter === 25) {
+  if (clickCounter === 5) {
     displayChart();
+    displayTotalChart();
   } else {
     generateNumArray();
     generateImages();
@@ -63,8 +78,9 @@ function handleClick2() {
   imageObjects[newNumbers[1]].totalClicks++;
   clickCounter++;
 
-  if (clickCounter === 25) {
+  if (clickCounter === 5) {
     displayChart();
+    displayTotalChart();
   } else {
     generateNumArray();
     generateImages();
@@ -75,8 +91,9 @@ function handleClick3() {
   imageObjects[newNumbers[2]].totalClicks++;
   clickCounter++;
 
-  if (clickCounter === 25) {
+  if (clickCounter === 5) {
     displayChart();
+    displayTotalChart();
   } else {
     generateNumArray();
     generateImages();
@@ -152,18 +169,10 @@ function displayChart() {
   var imageEl3 = document.getElementById('image-three');
   imageEl3.removeEventListener('click', handleClick3);
 
-  var imageNames = [];
   var imageClicks = [];
-  var imageDisplays = [];
-  var color = [];
-  var hovercolor = [];
 
   for (var i = 0; i < imageObjects.length; i++) {
-    imageNames.push(imageObjects[i].name);
     imageClicks.push(imageObjects[i].totalClicks);
-    imageDisplays.push(imageObjects[i].timesDisplayed);
-    color.push(`rgb(${200-i*9}, ${220-i*5}, 255)`);
-    hovercolor.push(`rgb(${180-i*9}, ${210-i*5}, 255)`);
   }
 
   var headingEl = document.createElement('h2');
@@ -183,12 +192,90 @@ function displayChart() {
     data: {
       labels: imageNames,
       datasets: [{
-        label: 'BusMall Product Selections',
+        label: 'Your Product Selections',
         backgroundColor: color,
         hoverBackgroundColor: hovercolor,
         data: imageClicks,
       }]
     },
-    options: {}
+    options: {
+      responsive: true,
+      scales: {
+        yAxes: [{
+          ticks: {
+            beginAtZero: true
+          }
+        }],
+        xAxes: [{
+          ticks: {
+            autoSkip: false
+          }
+        }]
+      }
+    }
+  });
+}
+
+function displayTotalChart() {
+  if (localStorage) {
+    var retrievedClicks = localStorage.getItem('key');
+    var parsedClicks = JSON.parse(retrievedClicks);
+
+    var imageClicksForTotal = [];
+    for (var i = 0; i < imageObjects.length; i++) {
+      imageClicksForTotal.push(parsedClicks[i] + imageObjects[i].totalClicks);
+    }
+
+    var stringifiedClicks = JSON.stringify(imageClicksForTotal);
+    localStorage.setItem('key', stringifiedClicks);
+
+  } else {
+    var imageClicksForTotal = [];
+    for (var i = 0; i < imageObjects.length; i++) {
+      imageClicksForTotal.push(imageObjects[i].totalClicks);
+    }
+
+    var stringifiedClicks = JSON.stringify(imageClicksForTotal);
+    localStorage.setItem('key', stringifiedClicks);
+  }
+
+  var headingEl = document.createElement('h2');
+  headingEl.textContent = 'Here is a bar graph of everyone\'s selections:';
+  var mainEl = document.getElementById('main-container');
+  mainEl.appendChild(headingEl);
+  var canvasEl = document.createElement('canvas');
+  canvasEl.setAttribute('id', 'bar-graph2');
+  var divEl = document.createElement('div');
+  divEl.setAttribute('class', 'chart-container');
+  divEl.appendChild(canvasEl);
+  mainEl.appendChild(divEl);
+
+  var ctx = document.getElementById('bar-graph2').getContext('2d');
+  var chart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: imageNames,
+      datasets: [{
+        label: 'Everyone\'s Product Selections',
+        backgroundColor: color,
+        hoverBackgroundColor: hovercolor,
+        data: imageClicksForTotal,
+      }]
+    },
+    options: {
+      responsive: true,
+      scales: {
+        yAxes: [{
+          ticks: {
+            beginAtZero: true
+          }
+        }],
+        xAxes: [{
+          ticks: {
+            autoSkip: false
+          }
+        }]
+      }
+    }
   });
 }
