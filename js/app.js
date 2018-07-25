@@ -61,7 +61,7 @@ function handleClick1() {
   imageObjects[newNumbers[0]].totalClicks++;
   clickCounter++;
 
-  if (clickCounter === 5) {
+  if (clickCounter === 25) {
     displayChart();
     displayTotalChart();
   } else {
@@ -74,7 +74,7 @@ function handleClick2() {
   imageObjects[newNumbers[1]].totalClicks++;
   clickCounter++;
 
-  if (clickCounter === 5) {
+  if (clickCounter === 25) {
     displayChart();
     displayTotalChart();
   } else {
@@ -87,7 +87,7 @@ function handleClick3() {
   imageObjects[newNumbers[2]].totalClicks++;
   clickCounter++;
 
-  if (clickCounter === 5) {
+  if (clickCounter === 25) {
     displayChart();
     displayTotalChart();
   } else {
