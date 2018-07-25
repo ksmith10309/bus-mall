@@ -11,7 +11,7 @@ var images = ['img/bag.jpg', 'img/banana.jpg', 'img/bathroom.jpg', 'img/boots.jp
 
 var imageObjects = [];
 
-for (var i=0; i<images.length; i++) {
+for (var i = 0; i < images.length; i++) {
   imageObjects.push(new ImageObject(images[i]));
 }
 
@@ -19,14 +19,10 @@ var imageNames = [];
 var color = [];
 var hovercolor = [];
 
-for (var i = 0; i < imageObjects.length; i++) {
-  imageNames.push(imageObjects[i].name);
-  color.push(`rgb(${200-i*9}, ${220-i*5}, 255)`);
-  hovercolor.push(`rgb(${180-i*9}, ${210-i*5}, 255)`);
-}
-
-for (var i=0; i<images.length; i++) {
-  imageObjects.push(new ImageObject(images[i]));
+for (var j = 0; j < imageObjects.length; j++) {
+  imageNames.push(imageObjects[j].name);
+  color.push(`rgb(${200-j*9}, ${220-j*5}, 255)`);
+  hovercolor.push(`rgb(${180-j*9}, ${210-j*5}, 255)`);
 }
 
 var newNumbers = [];
@@ -216,26 +212,29 @@ function displayChart() {
   });
 }
 
+var imageClicksForTotal;
+var stringifiedClicks;
+
 function displayTotalChart() {
-  if (localStorage) {
+  if (localStorage.length) {
     var retrievedClicks = localStorage.getItem('key');
     var parsedClicks = JSON.parse(retrievedClicks);
 
-    var imageClicksForTotal = [];
+    imageClicksForTotal = [];
     for (var i = 0; i < imageObjects.length; i++) {
       imageClicksForTotal.push(parsedClicks[i] + imageObjects[i].totalClicks);
     }
 
-    var stringifiedClicks = JSON.stringify(imageClicksForTotal);
+    stringifiedClicks = JSON.stringify(imageClicksForTotal);
     localStorage.setItem('key', stringifiedClicks);
 
   } else {
-    var imageClicksForTotal = [];
-    for (var i = 0; i < imageObjects.length; i++) {
-      imageClicksForTotal.push(imageObjects[i].totalClicks);
+    imageClicksForTotal = [];
+    for (var j = 0; j < imageObjects.length; j++) {
+      imageClicksForTotal.push(imageObjects[j].totalClicks);
     }
 
-    var stringifiedClicks = JSON.stringify(imageClicksForTotal);
+    stringifiedClicks = JSON.stringify(imageClicksForTotal);
     localStorage.setItem('key', stringifiedClicks);
   }
 
